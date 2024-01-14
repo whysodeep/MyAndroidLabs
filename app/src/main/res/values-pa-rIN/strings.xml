@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Raman\'s Android Labs</string>
+
+    <string name="button_message">Mei ik button han</string>
+    <string name="hello_message">Sat Sri Akal, Duniya!</string>
+</resources>
