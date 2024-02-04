@@ -5,6 +5,9 @@ plugins {
 android {
     namespace = "algonquin.cst2355.rama0110"
     compileSdk = 34
+    buildFeatures {
+        viewBinding = true
+    }
 
     defaultConfig {
         applicationId = "algonquin.cst2355.rama0110"
