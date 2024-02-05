@@ -58,7 +58,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Observe the LiveData and update the UI components accordingly
-        model.setCheckboxState().observe(this, isChecked -> {
+        model.setCheckboxState().observe(this,selected->{
+            variableBinding.checkbox.setChecked(selected);
+            variableBinding.radioButton.setChecked(selected);
+            variableBinding.switchBox.setChecked(selected);
+
+            Toast.makeText(this,
+                            "The value is now: " + selected,
+                            Toast.LENGTH_SHORT)
+                    .show();
+        });
+        /*model.setCheckboxState().observe(this, isChecked -> {
             if (isChecked != null) {
                 checkBox.setChecked(isChecked);
                 showToast("Checkbox state: " + isChecked);
@@ -77,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 radioButton.setChecked(checkedId == R.id.radioButton);
                 showToast("Radio button state: " + (checkedId == R.id.radioButton));
             }
-        });
+        });*/
 
         // Set listeners for CompoundButtons using Lambda expressions
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> model.setCheckboxState().postValue(isChecked));
