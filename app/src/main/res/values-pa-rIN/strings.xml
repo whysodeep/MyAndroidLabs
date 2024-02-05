@@ -4,4 +4,8 @@
 
     <string name="button_message">Mei ik button han</string>
     <string name="hello_message">Sat Sri Akal, Duniya!</string>
+    <string name="spin_message">Jhanda ghumao</string>
+    <string name="button1">pehla button</string>
+    <string name="button2">duja button</string>
+    <string name="button3">teeja button</string>
 </resources>
