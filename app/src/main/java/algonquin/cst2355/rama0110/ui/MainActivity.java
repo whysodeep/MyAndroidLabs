@@ -68,6 +68,16 @@ public class MainActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT)
                     .show();
         });
+        model.setSwitchState().observe(this,selected->{
+            variableBinding.checkbox.setChecked(selected);
+            variableBinding.radioButton.setChecked(selected);
+            variableBinding.switchBox.setChecked(selected);
+
+            Toast.makeText(this,
+                            "The value is now: " + selected,
+                            Toast.LENGTH_SHORT)
+                    .show();
+        });
         /*model.setCheckboxState().observe(this, isChecked -> {
             if (isChecked != null) {
                 checkBox.setChecked(isChecked);
