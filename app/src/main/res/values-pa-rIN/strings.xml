@@ -2,6 +2,15 @@
 <resources>
     <string name="app_name">Raman\'s Android Labs</string>
 
-    <string name="button_message">Mei ik button han</string>
     <string name="hello_message">Sat Sri Akal, Duniya!</string>
+    <string name="phoneHintText">phone number bharo</string>
+    <string name="callButton">call karo</string>
+    <string name="phoneHintText">mobile number likho</string>
+    <string name="callButton">call karo</string>
+    <string name="changePicButton">photo badlo</string>
+    <string name="emailTextView">apni email bharo</string>
+    <string name="emailEt">ethe email bahro</string>
+    <string name="passwordTextView">" passowrd likho"</string>
+    <string name="editTextPassword">ethe password likho</string>
+    <string name="loginButton">enter karo</string>
 </resources>

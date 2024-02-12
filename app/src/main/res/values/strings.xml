@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Raman\'s Android Labs</string>
     <string name="hello_message">Hello World!</string>
-    <string name="button_message">I\'m a button</string>
+    <string name="loginButton">Login</string>
+    <string name="phoneHintText">Enter Phone Number</string>
+    <string name="callButton">Call Number</string>
+    <string name="changePicButton">Change Picture</string>
+    <string name="emailTextView">Enter your email address:</string>
+    <string name="emailEt">Your Email here</string>
+    <string name="passwordTextView">Type your password:</string>
+    <string name="editTextPassword">Your Password here</string>
 </resources>
