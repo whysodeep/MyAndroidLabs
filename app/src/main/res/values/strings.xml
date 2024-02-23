@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Raman\'s Android Labs</string>
+    <string name="textview1">Enter Password\n</string>
+    <string name="login">Login\n</string>
+    <string name="PasswordCheckPassed">Your password meets the requirements</string>
+    <string name="PasswordTestFail">You shall not pass!</string>
 </resources>
