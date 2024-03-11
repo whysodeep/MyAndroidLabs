@@ -4,4 +4,10 @@
     <string name="login">Login\n</string>
     <string name="PasswordCheckPassed">Your password meets the requirements</string>
     <string name="PasswordTestFail">You shall not pass!</string>
+    <string name="message_goes_here">message goes here</string>
+    <string name="time_goes_here">time goes here</string>
+    <string name="message_goes_here1">message goes here</string>
+    <string name="time_goes_here1">time goes here</string>
+    <string name="send_button">send</string>
+    <string name="recieve_button">receive</string>
 </resources>
