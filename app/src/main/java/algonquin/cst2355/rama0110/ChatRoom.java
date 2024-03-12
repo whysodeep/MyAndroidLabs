@@ -26,7 +26,7 @@ public class ChatRoom extends AppCompatActivity {
     ActivityChatRoomBinding binding;
     ChatRoomViewModel chatModel;
     ArrayList<ChatMessage> messages;
-    private RecyclerView.Adapter<MyRowHolder> myAdapter;
+    private RecyclerView.Adapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,19 +37,19 @@ public class ChatRoom extends AppCompatActivity {
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
         messages = chatModel.messages.getValue();
         if (messages == null) {
-            chatModel.messages.postValue(messages = new ArrayList<>());
+            chatModel.messages.postValue(messages = new ArrayList<ChatMessage>());
         }
 
         binding.sendButton.setOnClickListener(click -> {
-            sendMessage(true);
+            sendMessage();
         });
 
         binding.recieveButton.setOnClickListener(click -> {
-            sendMessage(false);
+            recieveMessage();
         });
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
+        binding.recyclerView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
             @NonNull
             @Override
             public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -68,7 +68,8 @@ public class ChatRoom extends AppCompatActivity {
             @Override
             public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
                 ChatMessage message = messages.get(position);
-                holder.bind(message);
+                holder.messageText.setText(message.getMessage());
+                holder.timeText.setText(message.getTimeSent());
             }
 
             @Override
@@ -79,28 +80,36 @@ public class ChatRoom extends AppCompatActivity {
             @Override
             public int getItemViewType(int position) {
                 // Check if the message at this position was sent or received
-                boolean isSent = messages.get(position).isSentButton();
+//                boolean isSent = messages.get(position).isSentButton();
+                ChatMessage obj = messages.get(position);
 
                 // Return 0 for sent messages, 1 for received messages
-                return isSent ? 0 : 1;
+                return obj.isSentButton() ? 0 : 1;
             }
 
-        };
-        binding.recyclerView.setAdapter(myAdapter);
+        });
     }
 
-    private void sendMessage(boolean isSent) {
+    private void sendMessage() {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
         String currentDateandTime = sdf.format(new Date());
-        ChatMessage message = new ChatMessage(binding.editText1.getText().toString(), currentDateandTime, isSent);
+        ChatMessage message = new ChatMessage(binding.editText1.getText().toString(), currentDateandTime, true);
+        messages.add(message);
+        myAdapter.notifyItemInserted(messages.size() - 1);
+        binding.editText1.setText("");
+    }
+    private void recieveMessage() {
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
+        String currentDateandTime = sdf.format(new Date());
+        ChatMessage message = new ChatMessage(binding.editText1.getText().toString(), currentDateandTime, false);
         messages.add(message);
         myAdapter.notifyItemInserted(messages.size() - 1);
         binding.editText1.setText("");
     }
 
     static class MyRowHolder extends RecyclerView.ViewHolder {
-        private final TextView messageText;
-        private final TextView timeText;
+         TextView messageText;
+        TextView timeText;
 
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
@@ -108,9 +117,6 @@ public class ChatRoom extends AppCompatActivity {
             timeText = itemView.findViewById(R.id.time);
         }
 
-        public void bind(ChatMessage message) {
-            messageText.setText(message.getMessage());
-            timeText.setText(message.getTimeSent());
-        }
+
     }
 }
