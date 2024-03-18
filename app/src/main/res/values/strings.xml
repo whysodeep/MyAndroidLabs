@@ -10,4 +10,10 @@
     <string name="time_goes_here1">time goes here</string>
     <string name="send_button">send</string>
     <string name="recieve_button">receive</string>
+    <string name="Deletemsg">"Do you want to delete this message: "</string>
+    <string name="title">Question</string>
+    <string name="no">No</string>
+    <string name="yes">yes\n</string>
+    <string name="Deletesuccess">You deleted message#\n</string>
+    <string name="undo">Undo</string>
 </resources>
