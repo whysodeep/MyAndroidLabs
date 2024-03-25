@@ -1,12 +1,13 @@
 package algonquin.cst2355.rama0110;
 
-import static algonquin.cst2355.rama0110.ChatMessageDAO.*;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -28,23 +29,25 @@ import java.util.concurrent.Executors;
 import algonquin.cst2355.rama0110.databinding.ActivityChatRoomBinding;
 import algonquin.cst2355.rama0110.databinding.ReceiveMessageBinding;
 import algonquin.cst2355.rama0110.databinding.SentMessageBinding;
-import algonquin.cst2355.rama0110.ChatMessage;
-import algonquin.cst2355.rama0110.ChatMessageDAO;
-import algonquin.cst2355.rama0110.MessageDatabase;
+
 import data.ChatRoomViewModel;
 
 public class ChatRoom extends AppCompatActivity {
 
-    ActivityChatRoomBinding binding;
-    ChatRoomViewModel chatModel;
-    ArrayList<ChatMessage> messages;
-     RecyclerView.Adapter myAdapter;
+    private ActivityChatRoomBinding binding;
+    private ChatRoomViewModel chatModel;
+    private ArrayList<ChatMessage> messages;
+    private RecyclerView.Adapter<MyRowHolder> myAdapter;
+
+    ChatMessageDAO mDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        setSupportActionBar(binding.myToolbar);
 
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
         messages = chatModel.messages.getValue();
@@ -141,30 +144,72 @@ public class ChatRoom extends AppCompatActivity {
 
             itemView.setOnClickListener(clk -> {
                 int position = getAbsoluteAdapterPosition();
-                AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
-                builder.setMessage( getString(R.string.Deletemsg) + messageText.getText())
+                AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
+                builder.setMessage(getString(R.string.Deletemsg) + messageText.getText())
                         .setTitle(getString(R.string.title))
+                        .setNegativeButton(getString(R.string.no), (dialog, cl) -> {})
+                        .setPositiveButton(getString(R.string.yes), (dialog, cl) -> {
+                            ChatMessage removedMessage = messages.get(position);
+                            messages.remove(position);
+                            myAdapter.notifyItemRemoved(position);
 
-                .setNegativeButton(getString(R.string.no), (dialog, cl) -> {})
-
-                .setPositiveButton(getString(R.string.yes), (dialog, cl) -> {
-
-                    ChatMessage removovedMessage = messages.get(position);
-                    messages.remove(position);
-                    myAdapter.notifyItemRemoved(position);
-
-                    Snackbar.make(messageText, getString(R.string.Deletesuccess) + position,Snackbar.LENGTH_LONG)
-                            .setAction(getString(R.string.undo) , click -> {
-                                messages.add(position,removovedMessage);
-                                myAdapter.notifyItemInserted(position);
-                            })
-                            .show();
-                })
-                .create().show();
-
+                            Snackbar.make(messageText, getString(R.string.Deletesuccess), Snackbar.LENGTH_LONG)
+                                    .setAction(getString(R.string.undo), click -> {
+                                        messages.add(position, removedMessage);
+                                        myAdapter.notifyItemInserted(position);
+                                    })
+                                    .show();
+                        })
+                        .create()
+                        .show();
             });
             messageText = itemView.findViewById(R.id.message);
             timeText = itemView.findViewById(R.id.time);
         }
     }
-}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.my_menu, menu);
+        super.onCreateOptionsMenu(menu);
+
+        return true;
+    }
+
+   @Override
+        public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.item_1) {
+                // Handle delete all messages menu item
+                new AlertDialog.Builder(ChatRoom.this)
+                        .setMessage(getString(R.string.confirm_delete_all_messages))
+                        .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+                            // Clear all messages
+                            messages.clear();
+
+                            myAdapter.notifyDataSetChanged();
+                            Snackbar.make(binding.getRoot(), getString(R.string.all_messages_deleted), Snackbar.LENGTH_LONG)
+                                    .setAction(getString(R.string.undo), view -> {
+                                        // Restore messages (if needed)
+                                        // You can implement this part based on your requirements
+                                    })
+                                    .show();
+                        })
+                        .setNegativeButton(getString(R.string.no), null)
+                        .create()
+                        .show();
+                return true;
+            } else if (itemId == R.id.item_about) {
+                // Show About toast message
+                Toast.makeText(this, "Version 1.0, created by Raman", Toast.LENGTH_SHORT).show();
+                return true;
+            } else {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+
+    }
+
+
+

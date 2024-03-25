@@ -17,4 +17,7 @@ public interface ChatMessageDAO {
 
     @Delete
     void deleteMessage (ChatMessage m);
+
+    @Query("Delete from ChatMessage")
+    public void deleteAllMessages();
 }

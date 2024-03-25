@@ -16,4 +16,8 @@
     <string name="yes">yes\n</string>
     <string name="Deletesuccess">You deleted message#\n</string>
     <string name="undo">Undo</string>
+    <string name="confirm_delete_all_messages">Delete all messages?</string>
+    <string name="all_messages_deleted">Messages deleted</string>
+    <string name="delete_this_item">Delete this item</string>
+    <string name="about">about</string>
 </resources>
